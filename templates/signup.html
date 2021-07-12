@@ -1,0 +1,28 @@
+{% extends 'base-loggedout.html' %}
+
+{% block title %}Sign Up for Quizzr{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Sign up</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p>Sign up for Quizzr, the quiz-generating web app powered by Jservice, the Jeopardy! database that is the largest
+                trivia repository on the internet. Create, edit, and store quizzes for pub trivia, parties, or your own personal edification.
+            </p>
+            <div class="form-group">
+                <form method="POST">
+                {{ form.hidden_tag() }}
+                <p>Passwords must be at least six characters in length.</p>
+                {{form.username.label}}{{form.username(class_="form-control")}}<small class="form-text text-danger">{% for error in form.username.errors %}{{error}}{% endfor %}</small><br>
+                {{form.password.label}}{{form.password(class_="form-control")}}<small class="form-text text-danger">{% for error in form.password.errors %}{{error}}{% endfor %}</small><br>
+
+                <br><br>
+                <button class="btn  btn-success  btn-lg">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

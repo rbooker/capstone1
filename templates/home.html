@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Quizzr Home{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Welcome, {{username}}</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="list-group">
+                <a href="/quizzes/show" class="list-group-item list-group-item-action">View My Quizzes</a>
+                <a href="/questions/show" class="list-group-item list-group-item-action">View My Questions</a>
+                <a href="/quizzes/create" class="list-group-item list-group-item-action">Create a New Quiz</a>
+                <a href="/questions/create" class="list-group-item list-group-item-action">Write a New Question</a>
+            </div>
+            <br><br>
+            <a href="/deleteprofile">Delete Profile</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

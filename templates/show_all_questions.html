@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Show All Questions{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Questions:</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for question in questions %}
+                <a href="/questions/show/{{question.id}}">Question {{question.id}}</a><br>    
+                Question: {{question.question}}<br>
+                Answer: {{question.answer}}<br>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

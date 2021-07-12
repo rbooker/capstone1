@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Show Quiz{% endblock %}
+
+{% block content %}
+<form action="/quizzes/replace_questions/{{quiz.id}}" method="POST">
+{% for round in quiz_questions %}
+<h1>Round {{loop.index}}</h1>
+    {% for question in round %}
+    <h5>Question {{loop.index}}.</h5>
+    {{question.question}}<br>
+    {{question.answer}}<br>
+    <input type="checkbox" id="{{question.id}}" name="checked_questions" value={{question.id}}><label for="{{question.id}}">Select</label><br>
+    {% endfor %}
+{% endfor %}
+<button type="submit" class="btn  btn-warning btn-lg">Replace</button>
+<button type="submit" class="btn btn-danger btn-lg" formaction="/quizzes/remove_questions/{{quiz.id}}">Remove</button>
+{% endblock %}
+
+</form>

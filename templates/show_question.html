@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Show Question{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h4 class="display-5 text-center">Question ID: {{question.id}}</h4>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                Question: {{question.question}}<br>
+                Answer: {{question.answer}}<br>
+                Difficulty: {{question.difficulty}}<br><br>
+                <a href="/questions/edit/{{question.id}}" class="edit-button">Edit Question</a>
+            </div><br><br>
+            <div class="card">
+                <div class="form-group">
+                <form method="POST">
+                {{ form.hidden_tag() }}
+                {{form.quiz.label}}{{form.quiz(class_="form-select", id="quiz-select")}}<br>
+                
+                {% for quiz_round in quiz_rounds %}
+                <div id="quiz-{{quiz_round[0]}}" data-rounds={{quiz_round[1]}}></div>
+                {% endfor %}
+                
+                {{form.round.label}}{{form.round(class_="form-select", id="round-select")}}<br>
+                <br>
+                <button class="btn  btn-success  btn-lg">Add To Quiz</button><br><br>
+                </div>
+            </div>  
+                <br>
+                <button style="width:12rem" type="submit" class="btn btn-danger btn-lg" formaction="/questions/delete/{{question.id}}">Delete Question</button>
+                </form>
+            
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/jquery"></script>
+<script src="/static/populate_rounds.js"></script>
+
+{% endblock %}

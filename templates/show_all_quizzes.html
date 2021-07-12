@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Show All Quizzes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Quizzes:</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for quiz in quizzes %}
+                <a href="/quizzes/show/{{quiz.id}}">{{quiz.name}}</a><br>    
+                Rounds: {{quiz.rounds}}<br>
+                Questions: {{quiz.questions|length}}<br>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

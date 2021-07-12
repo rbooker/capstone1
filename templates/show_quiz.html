@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Show Quiz{% endblock %}
+
+{% block content %}
+{% for round in quiz_questions %}
+<h1>Round {{loop.index}}</h1>
+    {% for question in round %}
+    Question {{loop.index}}.<br>
+    {{question.question}}<br>
+    {{question.answer}}<br>
+    {% endfor %}
+{% endfor %}
+<br>
+<a href="/quizzes/edit/{{quiz.id}}" class="edit-button">Edit Quiz</a><br><br>
+<form action="/quizzes/delete/{{quiz.id}}" method="POST">
+    <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+</form>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Quiz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Create New Quiz</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{form.name.label}}: {{form.name(class_="form-control")}}<small class="form-text text-danger">{% for error in form.name.errors %}{{error}}{% endfor %}</small><br>
+                {{form.description.label}}: {{form.description(class_="form-control")}}<br>
+                {{form.rounds.label}}: {{form.rounds(class_="form-select", id="round-select")}}<br>
+                {{form.qs_per_round.label}}: {{form.qs_per_round(class_="form-select")}}<br>
+                <p>Choose the level of difficulty of the questions in each round. From 1 (Easy) to 5 (Hard). You must choose at least one.
+                </p>
+                <div id="diff-round1">
+                    {{form.round_one_diff.label}}:
+                    <div class_="form-check">
+                        {% for subfield in form.round_one_diff %}
+                        {% if loop.index == 1 and not form.round_one_diff.errors %}
+                        {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% else %}
+                        {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                    </div>
+                    <small class="form-text text-danger">{% for error in form.round_one_diff.errors %}{{error}}{% endfor %}</small>
+                    <br>
+                </div>
+                <div id="diff-round2" style="display:none">
+                    {{form.round_two_diff.label}}:
+                    <div class_="form-check">
+                        {% for subfield in form.round_two_diff %}
+                        {% if loop.index == 2 and not form.round_two_diff.errors %}
+                        {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% else %}
+                        {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                    </div>
+                    <small class="form-text text-danger">{% for error in form.round_two_diff.errors %}{{error}}{% endfor %}</small>
+                    <br>
+                </div>
+                <div id="diff-round3" style="display:none">
+                    {{form.round_three_diff.label}}:
+                    <div class_="form-check">
+                        {% for subfield in form.round_three_diff %}
+                        {% if loop.index == 3 and not form.round_three_diff.errors %}
+                        {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% else %}
+                        {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                    </div>
+                    <small class="form-text text-danger">{% for error in form.round_three_diff.errors %}{{error}}{% endfor %}</small>
+                    <br>
+                </div>
+                <div id="diff-round4" style="display:none">
+                    {{form.round_four_diff.label}}:
+                    <div class_="form-check">
+                        {% for subfield in form.round_four_diff %}
+                        {% if loop.index == 4 and not form.round_four_diff.errors %}
+                        {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% else %}
+                        {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                    </div>
+                    <small class="form-text text-danger">{% for error in form.round_four_diff.errors %}{{error}}{% endfor %}</small>
+                    <br>
+                </div>
+                <div id="diff-round5" style="display:none">
+                    {{form.round_five_diff.label}}:
+                    <div class_="form-check">
+                        {% for subfield in form.round_five_diff %}
+                        {% if loop.index == 5 and not form.round_five_diff.errors %}
+                        {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% else %}
+                        {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                    </div>
+                    <small class="form-text text-danger">{% for error in form.round_five_diff.errors %}{{error}}{% endfor %}</small>
+                </div>
+            </div>
+            
+            <br>
+            <button class="btn  btn-success  btn-lg">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/jquery"></script>
+<script src="/static/show_hidden_fields.js"></script>
+
+{% endblock %}

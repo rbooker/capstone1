@@ -1,0 +1,19 @@
+{% extends 'base-loggedout.html' %}
+
+{% block title %}Welcome to Quizzr{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 text-center">Welcome to Quizzr</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p>Quizzr is the quiz-generating web app powered by <a href="jservice.io">Jservice</a>, the Jeopardy! database that is the largest
+                trivia repository on the internet. Create, edit, and store questions and quizzes for pub trivia, parties, or your own personal edification.
+            </p>
+            <p><a href="/signup">Sign Up</a></p>
+            <p><a href="/login"></a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
