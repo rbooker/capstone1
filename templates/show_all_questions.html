@@ -4,14 +4,21 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-5 text-center">Questions:</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <br><h2><span class="badge rounded-pill bg-info text-dark">My Questions</span></h2><br>
             {% for question in questions %}
-                <a href="/questions/show/{{question.id}}">Question {{question.id}}</a><br>    
-                Question: {{question.question}}<br>
-                Answer: {{question.answer}}<br>
-                <br>
+                <div class="card">
+                    <div class="card-header"><h5>Question ID: {{question.id}}</h5></div>
+                <div class="card-body">   
+                    Question: {{question.question}}<br>
+                    Answer: {{question.answer}}<br>
+                    Difficulty: {{question.difficulty}}<br><br>
+                    <a href="/questions/show/{{question.id}}" class="btn btn-primary">View Question</a>&nbsp;
+                    <a href="/questions/edit/{{question.id}}" class="btn btn-secondary">Edit Question</a>&nbsp;
+                    <form style="display:inline" action="/questions/delete/{{question.id}}" method="POST"><button type="submit" class="btn btn-danger">Delete Question</button></form>
+                </div>
+                </div><br>
             {% endfor %}
         </div>
     </div>

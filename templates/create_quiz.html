@@ -4,9 +4,11 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-5 text-center">Create New Quiz</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <br><h2><span class="badge rounded-pill bg-info text-dark">Create New Quiz</span></h2><br>
+            <div class="card">
+                <div class="card-body">
             <form method="POST">
             {{ form.hidden_tag() }}
 
@@ -15,7 +17,7 @@
                 {{form.description.label}}: {{form.description(class_="form-control")}}<br>
                 {{form.rounds.label}}: {{form.rounds(class_="form-select", id="round-select")}}<br>
                 {{form.qs_per_round.label}}: {{form.qs_per_round(class_="form-select")}}<br>
-                <p>Choose the level of difficulty of the questions in each round. From 1 (Easy) to 5 (Hard). You must choose at least one.
+                <p>Choose the level of difficulty of the questions in each round. From 1 (Easy) to 5 (Hard). You must choose at least one per round.
                 </p>
                 <div id="diff-round1">
                     {{form.round_one_diff.label}}:
@@ -94,8 +96,10 @@
             </div>
             
             <br>
-            <button class="btn  btn-success  btn-lg">Submit</button>
+            <button class="btn  btn-primary">Create</button>
             </form>
+            </div>
+            </div><br><br>
         </div>
     </div>
 </div>

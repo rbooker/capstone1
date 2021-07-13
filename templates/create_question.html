@@ -4,9 +4,11 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-5 text-center">Add New Question</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <br><h2><span class="badge rounded-pill bg-info text-dark">Write New Question</span></h2><br>
+            <div class="card">
+                <div class="card-body">
             <div class="form-group">
                 <form method="POST">
                 {{ form.hidden_tag() }}
@@ -14,18 +16,21 @@
             
                 {{form.question.label}}{{form.question(class_="form-control")}}<small class="form-text text-danger">{% for error in form.question.errors %}{{error}}{% endfor %}</small><br>
                 {{form.answer.label}}{{form.answer(class_="form-control")}}<small class="form-text text-danger">{% for error in form.answer.errors %}{{error}}{% endfor %}</small><br>
-                {{form.difficulty.label}}
+                {{form.difficulty.label}}&nbsp;&nbsp;
                 {% for subfield in form.difficulty %}
                     {% if loop.index == 1 %}
                         {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
                     {% else %}
                         {{subfield(class_="form-check-input")}}&nbsp;{{subfield.label(class_="form-check-label")}}
                     {% endif %}
+                    &nbsp;&nbsp;
                 {% endfor %}
                 <small class="form-text text-danger">{% for error in form.difficulty.errors %}{{error}}{% endfor %}</small>
                 <br><br>
-                <button class="btn  btn-success  btn-lg">Submit</button>
+                <button class="btn  btn-primary">Create</button>
                 </form>
+                </div>
+                </div>
             </div>
         </div>
     </div>

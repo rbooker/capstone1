@@ -3,15 +3,16 @@
 {% block title %}Welcome to Quizzr{% endblock %}
 
 {% block content %}
+<br><br><img src="/static/quizzr_logo_whitebg.png" alt="large Quizzr logo" width="400" height="100" class="center-image">
 <div class="container">
-    <h1 class="display-5 text-center">Welcome to Quizzr</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <p>Quizzr is the quiz-generating web app powered by <a href="jservice.io">Jservice</a>, the Jeopardy! database that is the largest
+            <br><br>
+            <h3>Welcome to Quizzr!</h3>
+            <p>Quizzr is the quiz-generating web app powered by <a href="jservice.io">Jservice</a>, the Jeopardy! database that acts as the largest
                 trivia repository on the internet. Create, edit, and store questions and quizzes for pub trivia, parties, or your own personal edification.
             </p>
-            <p><a href="/signup">Sign Up</a></p>
-            <p><a href="/login"></a></p>
+            <p><a class="btn btn-primary" href="/login">Log In</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="/signup">Sign Up</a></p>
         </div>
     </div>
 </div>

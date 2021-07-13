@@ -4,17 +4,50 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-5 text-center">Welcome, {{username}}</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="list-group">
-                <a href="/quizzes/show" class="list-group-item list-group-item-action">View My Quizzes</a>
-                <a href="/questions/show" class="list-group-item list-group-item-action">View My Questions</a>
-                <a href="/quizzes/create" class="list-group-item list-group-item-action">Create a New Quiz</a>
-                <a href="/questions/create" class="list-group-item list-group-item-action">Write a New Question</a>
+            <br>
+            <h2><span class="badge rounded-pill bg-info text-dark">Welcome, {{username}}</span></h2><br>
+            <div class="card">
+                <div class="card-header">
+                  My Quizzes &amp; Questions
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">My Quizzes</h5>
+                  <p class="card-text">A list of all saved quizzes in your library. Select a quiz to view or edit. </p>
+                  <a href="/quizzes/show" class="btn btn-primary">Go to Quizzes</a><br><br>
+                  <h5 class="card-title">My Questions</h5>
+                  <p class="card-text">A list of all saved questions in your library. Select a question to view or edit. </p>
+                  <a href="/questions/show" class="btn btn-primary">Go to Questions</a>
+                </div>
+            </div><br>
+            <div class="card">
+                <div class="card-header">
+                  Create Quizzes &amp; Questions
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Create a Quiz</h5>
+                  <p class="card-text">Generate a new quiz, using <a href="jservice.io">JService</a> as the source of your questions. Choose
+                the number of rounds (1-5), the number of questions per round (5-20), and the difficulty level of the questions in each round.</p>
+                  <a href="/quizzes/create" class="btn btn-primary">Create New Quiz</a><br><br>
+                  <h5 class="card-title">Write a Question</h5>
+                  <p class="card-text">Write your own question, save it, then add it to a quiz.</p>
+                  <a href="/questions/create" class="btn btn-primary">Write New Question</a>
+                </div>
             </div>
             <br><br>
-            <a href="/deleteprofile">Delete Profile</a>
+            <div class="card">
+                <div class="card-header">
+                  Delete My Profile
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Deleting Your Quizzr Account</h5>
+                  <p class="card-text">We hate to see you go, but if you'd like to permanently delete your account, the button below will
+                      take you to the page that allows you to do just that.
+                  </p>
+                  <a href="/deleteprofile" class="btn btn-danger">Delete Profile</a>
+                </div>
+            </div><br><br>
         </div>
     </div>
 </div>

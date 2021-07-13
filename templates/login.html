@@ -3,12 +3,13 @@
 {% block title %}Log In to Quizzr{% endblock %}
 
 {% block content %}
+<br><br><img src="/static/quizzr_logo_whitebg.png" alt="large Quizzr logo" width="400" height="100" class="center-image">
 <div class="container">
-    <h1 class="display-5 text-center">Log In</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <p>Log in to create, edit, and store quizzes for pub trivia, parties, or your own personal edification.
-            </p>
+            <br><br>
+            <h3>Welcome to Quizzr!</h3>
+            <p>Log in to continue creating and editing your own unique quizzes.</p>
             <div class="form-group">
                 <form method="POST">
                 {{ form.hidden_tag() }}
@@ -16,8 +17,8 @@
                 {{form.username.label}}{{form.username(class_="form-control")}}<small class="form-text text-danger">{% for error in form.username.errors %}{{error}}{% endfor %}</small><br>
                 {{form.password.label}}{{form.password(class_="form-control")}}<small class="form-text text-danger">{% for error in form.password.errors %}{{error}}{% endfor %}</small><br>
 
-                <br><br>
-                <button class="btn  btn-success  btn-lg">Submit</button>
+                <br>
+                <button class="btn  btn-primary">Submit</button>
                 </form>
             </div>
         </div>

@@ -4,17 +4,40 @@
 
 {% block content %}
 <form action="/quizzes/replace_questions/{{quiz.id}}" method="POST">
-{% for round in quiz_questions %}
-<h1>Round {{loop.index}}</h1>
-    {% for question in round %}
-    <h5>Question {{loop.index}}.</h5>
-    {{question.question}}<br>
-    {{question.answer}}<br>
-    <input type="checkbox" id="{{question.id}}" name="checked_questions" value={{question.id}}><label for="{{question.id}}">Select</label><br>
-    {% endfor %}
-{% endfor %}
-<button type="submit" class="btn  btn-warning btn-lg">Replace</button>
-<button type="submit" class="btn btn-danger btn-lg" formaction="/quizzes/remove_questions/{{quiz.id}}">Remove</button>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <br><h3><span class="badge rounded-pill bg-info text-dark">Edit Quiz: {{quiz.name}}</span></h3>
+                <p>To edit your quiz, check the box next to the questions you'd like to remove, or replace with a question of
+                    equal difficulty from <a href="jservice.io">Jservice</a>. Then, click either the 
+                    <span class="badge bg-warning text-dark">Replace</span> or 
+                    <span class="badge bg-danger">Remove</span> button at the bottom of the page. 
+                    Note: neither option will delete the question from your library.
+                </p>
+                {% for round in quiz_questions %}
+                    <div class="card">
+                        <div class="card-header"><h5>Round {{loop.index}}</h5></div>
+                        <div class="card-body">
+                        <ul class="list-group">    
+                        {% for question in round %}
+                            <li class="list-group-item">
+                            <h6 class="card-title">Question {{loop.index}}.</h6>
+                            <p class="card-text"><em>Q.</em> {{question.question}}</p>
+                            <p class="card-text"><em>A.</em> {{question.answer}}</p>
+                            <input class="form-check-input" type="checkbox" id="{{question.id}}" name="checked_questions" value={{question.id}}><label for="{{question.id}}">&nbsp;Select</label><br>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                        </div>
+                    </div><br>
+                {% endfor %}
+                <button type="submit" class="btn btn-warning">Replace</button>
+                <button type="submit" class="btn btn-danger" formaction="/quizzes/remove_questions/{{quiz.id}}">Remove</button>
+                </form>
+            </div>
+        </div>
+    </div><br><br>
 {% endblock %}
 
-</form>
+
+

@@ -8,3 +8,9 @@
     width: 9.5rem;
 
 }
+
+.center-image {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}

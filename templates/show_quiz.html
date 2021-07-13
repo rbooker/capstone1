@@ -3,17 +3,31 @@
 {% block title %}Show Quiz{% endblock %}
 
 {% block content %}
-{% for round in quiz_questions %}
-<h1>Round {{loop.index}}</h1>
-    {% for question in round %}
-    Question {{loop.index}}.<br>
-    {{question.question}}<br>
-    {{question.answer}}<br>
-    {% endfor %}
-{% endfor %}
-<br>
-<a href="/quizzes/edit/{{quiz.id}}" class="edit-button">Edit Quiz</a><br><br>
-<form action="/quizzes/delete/{{quiz.id}}" method="POST">
-    <button type="submit" class="btn btn-danger btn-lg">Delete</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <br><h2><span class="badge rounded-pill bg-info text-dark">{{quiz.name}}</h2><br>
+            {% for round in quiz_questions %}
+                <div class="card">
+                    <div class="card-header"><h5>Round {{loop.index}}</h5></div>
+                    <div class="card-body">
+                    <ul class="list-group">    
+                    {% for question in round %}
+                        <li class="list-group-item">
+                        <h6 class="card-title">Question {{loop.index}}.</h6>
+                        <p class="card-text"><em>Q.</em> {{question.question}}</p>
+                        <p class="card-text"><em>A.</em> {{question.answer}}</p>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div><br>
+            {% endfor %}
+            <p><a href="/quizzes/edit/{{quiz.id}}" class="btn btn-primary">Edit Quiz</a></p>
+            <p><form action="/quizzes/delete/{{quiz.id}}" method="POST">
+            <button type="submit" class="btn btn-danger">Delete Quiz</button>
+            </form></p><br>
+        </div>
+    </div>
+</div>
 {% endblock %}
