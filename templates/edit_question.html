@@ -14,9 +14,9 @@
                 {{ form.hidden_tag() }}
 
             
-                {{form.question.label}}{{form.question(class_="form-control", value=question.question)}}<small class="form-text text-danger">{% for error in form.question.errors %}{{error}}{% endfor %}</small><br>
-                {{form.answer.label}}{{form.answer(class_="form-control", value=question.answer)}}<small class="form-text text-danger">{% for error in form.answer.errors %}{{error}}{% endfor %}</small><br>
-                {{form.difficulty.label}}&nbsp;&nbsp;
+                <strong>{{form.question.label}}</strong>:{{form.question(class_="form-control", value=question.question)}}<small class="form-text text-danger">{% for error in form.question.errors %}{{error}}{% endfor %}</small><br>
+                <strong>{{form.answer.label}}</strong>:{{form.answer(class_="form-control", value=question.answer)}}<small class="form-text text-danger">{% for error in form.answer.errors %}{{error}}{% endfor %}</small><br>
+                <strong>{{form.difficulty.label}}:</strong>&nbsp;&nbsp;
                 {% for subfield in form.difficulty %}
                     {% if loop.index == question.difficulty %}
                         {{subfield(class_="form-check-input", checked="checked")}}&nbsp;{{subfield.label(class_="form-check-label")}}
@@ -26,6 +26,7 @@
                     &nbsp;&nbsp;
                 {% endfor %}
                 <small class="form-text text-danger">{% for error in form.difficulty.errors %}{{error}}{% endfor %}</small>
+                {% if question.category %}<br><br><small><strong>JCategory:</strong> {{question.category}}</small>{% endif %}
                 <br><br>
                 <button class="btn  btn-primary">Submit</button>
                 </form>

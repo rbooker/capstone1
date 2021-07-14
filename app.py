@@ -407,7 +407,7 @@ def delete_question(question_id):
     return redirect("/questions/show")
 
 ######################################################
-#Homepage route
+#Homepage/About/FAQ routes
 ######################################################
 
 @app.route('/')
@@ -420,6 +420,26 @@ def homepage():
 
     else:
         return render_template('home-anon.html')
+
+@app.route('/about')
+def about_page():
+    """Show 'about' page"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    return render_template('about.html')
+
+@app.route('/faq')
+def faq_page():
+    """Show FAQ page"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    return render_template('faq.html')
 
 ##############################################################################
 # Turn off all caching in Flask

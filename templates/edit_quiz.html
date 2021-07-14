@@ -22,8 +22,9 @@
                         {% for question in round %}
                             <li class="list-group-item">
                             <h6 class="card-title">Question {{loop.index}}.</h6>
-                            <p class="card-text"><em>Q.</em> {{question.question}}</p>
-                            <p class="card-text"><em>A.</em> {{question.answer}}</p>
+                            <p class="card-text"><strong>Q.</strong> {{question.question}}</p>
+                            <p class="card-text"><strong>A.</strong> {{question.answer}}</p>
+                            <p class="card-text"><small><strong>Question ID:</strong> {{question.id}}{% if question.category %}<br><strong>JCategory:</strong> {{question.category}}{% endif %}</small></p>
                             <input class="form-check-input" type="checkbox" id="{{question.id}}" name="checked_questions" value={{question.id}}><label for="{{question.id}}">&nbsp;Select</label><br>
                             </li>
                         {% endfor %}

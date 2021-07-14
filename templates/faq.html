@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Quizzr{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <br><br>
+            <h3>Frequently Asked Questions</h3><br>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Q.</strong> Are you affiliated with Jeopardy! or JService?
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
+                      <strong>A.</strong> No and no. I am a fan of both, however.
+                  </p>
+                </div>
+            </div><br><br>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Q.</strong>Why can't I add my own category to/edit the category of a question?
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>A.</strong> The reason category information is included with the questions obtained from JService - all of which are taken
+                        from episodes of Jeopardy! - is that a lot of them rely upon it for context (this information is even referred to
+                        as the "JCategory" - a shortening of "Jeopardy! Category"). This, alongside the fact that the quizzes you create for the site are 
+                        organized by round, not category, means it doesn't really make sense to allow users to add a category to a question,
+                         or edit a question's JCategory.</p> 
+                    </p>
+                </div>
+            </div><br><br>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Q.</strong>Why does the category only appear on the Question Edit/Quiz Edit pages?
+                </div>
+                <div class="card-body">
+                <p class="card-text">
+                    <strong>A.</strong> Per the above answer, the category (or "JCategory", as it's referred to, as it's taken from Jeopardy!) is there to help you make sense of a question. It's on the
+                    Question Edit page to provide the contextual information necessary to re-word a question so that it's understandable without knowing
+                    its Jeopardy! category (since presumably you wouldn't want to have to provide that information during a quiz - you don't want people to know you're 
+                    stealing your questions from a game show, do you?). And it's on the Quiz Edit page since that's where you decide whether to remove or replace questions, and knowing a question's category might
+                    influence your thought process regarding that matter.</p> 
+                </p>
+                </div>
+            </div><br><br>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Q.</strong>Why aren't there links to edit questions on the Quiz Edit page?
+                </div>
+                <div class="card-body">
+                <p class="card-text">
+                <strong>A.</strong>Questions exist independently of quizzes, so if you edit a question, the changes occur to every instance of it. In slightly less technical terms: 
+                if you re-write a question that's on multiple quizzes it gets re-written on every single one of them. Having the links to edit questions on the Questions page rather than on a particular
+                quiz's Quiz Edit page emphasizes this point.</p>
+                </p>
+                </div>
+            </div><br><br>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Q.</strong>Why do my question IDs not start at one/aren't consecutive?
+                </div>
+                <div class="card-body">
+                <p class="card-text">
+                <strong>A.</strong>The database stores not just your questions, but the questions of everyone using the site. The ID numbers for questions are assigned sequentially
+                in the order they're added to the database, and the first question you store might be the 4,782nd stored by all users. Similarly, if you add some questions, and then, before you
+                add any more, other users add 100 questions of their own, the enumeration of the IDs of your questions will contain a one-hundred unit gap.</p>
+                </p>
+                </div>
+            </div><br><br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -89,6 +89,7 @@ class Question(db.Model):
     question = db.Column(db.Text, nullable=False)
     answer = db.Column(db.Text, nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
+    category = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
 
     quizzes = db.relationship("QuizQuestion", back_populates="question", cascade="all, delete")

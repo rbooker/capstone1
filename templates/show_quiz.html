@@ -15,8 +15,8 @@
                     {% for question in round %}
                         <li class="list-group-item">
                         <h6 class="card-title">Question {{loop.index}}.</h6>
-                        <p class="card-text"><em>Q.</em> {{question.question}}</p>
-                        <p class="card-text"><em>A.</em> {{question.answer}}</p>
+                        <p class="card-text"><strong>Q.</strong> {{question.question}}</p>
+                        <p class="card-text"><strong>A.</strong> {{question.answer}}</p>
                         </li>
                     {% endfor %}
                     </ul>

@@ -22,7 +22,7 @@ def get_quiz_data(difficulty, total_questions, user_id):
             if question["value"] is not None:
                 q_diff = ceil(int(question["value"])/200)
                 if q_diff in difficulty:
-                    quiz_questions.append(Question(question=question["question"], answer=question["answer"], difficulty=q_diff, user_id=user_id))
+                    quiz_questions.append(Question(question=question["question"], answer=question["answer"], category=question["category"]["title"], difficulty=q_diff, user_id=user_id))
                     if len(quiz_questions) == total_questions:
                         break
 

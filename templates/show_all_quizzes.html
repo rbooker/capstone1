@@ -12,9 +12,9 @@
             <div class="card">
                 <div class="card-header"><h5>{{quiz.name}}</h5></div>
                 <div class="card-body">    
-                    Rounds: {{quiz.rounds}}<br>
-                    Questions: {{quiz.questions|length}}<br>
-                    Description: {{quiz.description}}<br><br>
+                    <strong>Rounds:</strong> {{quiz.rounds}}<br>
+                    <strong>Questions:</strong> {{quiz.questions|length}}<br>
+                    <strong>Description:</strong> {{quiz.description}}<br><br>
                     <a href="/quizzes/show/{{quiz.id}}" class="btn btn-primary">View Quiz</a>&nbsp;
                     <a href="/quizzes/edit/{{quiz.id}}" class="btn btn-secondary">Edit Quiz</a>
                     <form style="display:inline" action="/quizzes/delete/{{quiz.id}}" method="POST"><button type="submit" class="btn btn-danger">Delete Quiz</button></form>
