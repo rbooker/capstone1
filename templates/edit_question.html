@@ -9,7 +9,7 @@
             <br><h2><span class="badge rounded-pill bg-info text-dark">Edit Question: ID {{question.id}}</h2><br>
             <div class="card">
                 <div class="card-body">
-            <div class="form-group">
+                <div class="form-group">
                 <form method="POST">
                 {{ form.hidden_tag() }}
 
@@ -26,13 +26,15 @@
                     &nbsp;&nbsp;
                 {% endfor %}
                 <small class="form-text text-danger">{% for error in form.difficulty.errors %}{{error}}{% endfor %}</small>
-                {% if question.category %}<br><br><small><strong>JCategory:</strong> {{question.category}}</small>{% endif %}
+                {% if question.category %}<br><br><strong>JCategory:</strong> {{question.category}}{% endif %}
                 <br><br>
                 <button class="btn  btn-primary">Submit</button>
                 </form>
-            </div>
-            </div>
-            </div>
+                </div>
+                </div>
+            </div><br>
+            <a href="/questions/show" class="btn btn-success">Back To All Questions</a>  
+                <br><br>
         </div>
     </div>
 </div>

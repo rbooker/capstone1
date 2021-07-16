@@ -20,7 +20,7 @@ class CreateQuizForm(FlaskForm):
     name = StringField("Quiz Name",  validators=[InputRequired(message="Quiz Name can't be blank"), Length(max=50, message="Quiz Name can't exceed 50 characters")])
     description = StringField("Description", validators=[Optional(), Length(max=250, message="Quiz Description can't exceed 250 characters")])
     rounds = SelectField("Number of Rounds", choices=[(1,1),(2,2),(3,3),(4,4),(5,5)], coerce=int)
-    qs_per_round = SelectField("Questions per Round", choices=[(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10)], coerce=int)
+    qs_per_round = SelectField("Questions per Round", choices=[(5,5),(10,10),(15,15),(20,20)], coerce=int)
     round_one_diff = MultiCheckboxField("Round One Difficulty", choices=[(1,1),(2,2),(3,3),(4,4),(5,5)], coerce=int, validators=[DataRequired(message="Select at least one question difficulty level")])
     round_two_diff = MultiCheckboxField("Round Two Difficulty", choices=[(1,1),(2,2),(3,3),(4,4),(5,5)], coerce=int, validators=[DataRequired(message="Select at least one question difficulty level")])
     round_three_diff = MultiCheckboxField("Round Three Difficulty", choices=[(1,1),(2,2),(3,3),(4,4),(5,5)], coerce=int, validators=[DataRequired(message="Select at least one question difficulty level")])
@@ -58,4 +58,17 @@ class LogInForm(FlaskForm):
     
     username = StringField('Username', validators=[DataRequired(message="Enter a name")])
     password = PasswordField('Password', validators=[Length(min=6, message="Password must be at least six characters long")])
+
+class ChangeUsernameForm(FlaskForm):
+    """Form for changing username"""
+
+    username = StringField('New Username', validators=[DataRequired(message="Enter a name")])
+    password = PasswordField('Password', validators=[Length(min=6, message="Password must be at least six characters long")])
+
+class ChangePasswordForm(FlaskForm):
+    """Form for changing password"""
+
+    new_password = PasswordField('New Password', validators=[Length(min=6, message="Password must be at least six characters long")])
+    password = PasswordField('Current Password', validators=[Length(min=6, message="Password must be at least six characters long")])
+
 

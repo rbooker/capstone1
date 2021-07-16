@@ -17,16 +17,35 @@
                         <h6 class="card-title">Question {{loop.index}}.</h6>
                         <p class="card-text"><strong>Q.</strong> {{question.question}}</p>
                         <p class="card-text"><strong>A.</strong> {{question.answer}}</p>
+                        <p class="card-text"><small>{% if question.category %}<strong>JCategory:</strong> {{question.category}}&nbsp;&nbsp;&nbsp;&nbsp;{% endif %}<strong>Difficulty:</strong> {{question.difficulty}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>Question ID:</strong> {{question.id}}</small></p>
                         </li>
                     {% endfor %}
                     </ul>
                     </div>
                 </div><br>
             {% endfor %}
-            <p><a href="/quizzes/edit/{{quiz.id}}" class="btn btn-primary">Edit Quiz</a></p>
-            <p><form action="/quizzes/delete/{{quiz.id}}" method="POST">
-            <button type="submit" class="btn btn-danger">Delete Quiz</button>
-            </form></p><br>
+            <a href="/quizzes/show" class="btn btn-success">Back To All Quizzes</a>&nbsp;&nbsp;&nbsp;<a href="/quizzes/edit/{{quiz.id}}" class="btn btn-primary">Edit Quiz</a>&nbsp;&nbsp;
+            <form style="display:inline" action="/quizzes/delete/{{quiz.id}}" method="POST">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuizModal">Remove</button><br><br>
+                <!-- Replace Questions Modal -->
+                <div class="modal fade" id="deleteQuizModal" tabindex="-1" aria-labelledby="deleteQuizModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteQuizModalLabel">Delete Quiz?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Do you want to permanently delete this quiz?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </form><br>
         </div>
     </div>
 </div>

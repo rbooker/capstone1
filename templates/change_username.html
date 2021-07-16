@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Change username{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <br><br>
+            <h3>Change Username</h3>
+            <p>Enter new username below. You must also enter your password for the change to take effect.<br>
+              Current username: <strong>{{user_name}}</strong><br>
+            </p>
+
+            <div class="form-group">
+                <form method="POST">
+                {{ form.hidden_tag() }}
+
+                {{form.username.label}}{{form.username(class_="form-control")}}<small class="form-text text-danger">{% for error in form.username.errors %}{{error}}{% endfor %}</small><br>
+                {{form.password.label}}{{form.password(class_="form-control")}}<small class="form-text text-danger">{% for error in form.password.errors %}{{error}}{% endfor %}</small><br>
+
+                <br>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeUsernameModal">Submit</button>
+                <!-- Replace Questions Modal -->
+                <div class="modal fade" id="changeUsernameModal" tabindex="-1" aria-labelledby="changeUsernameModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="changeUsernameModalLabel">Change Username?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Do you want to change your username to the submitted value?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Change</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

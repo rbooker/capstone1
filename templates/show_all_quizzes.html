@@ -17,7 +17,26 @@
                     <strong>Description:</strong> {{quiz.description}}<br><br>
                     <a href="/quizzes/show/{{quiz.id}}" class="btn btn-primary">View Quiz</a>&nbsp;
                     <a href="/quizzes/edit/{{quiz.id}}" class="btn btn-secondary">Edit Quiz</a>
-                    <form style="display:inline" action="/quizzes/delete/{{quiz.id}}" method="POST"><button type="submit" class="btn btn-danger">Delete Quiz</button></form>
+                    <form style="display:inline" action="/quizzes/delete/{{quiz.id}}" method="POST"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuiz{{quiz.id}}Modal">Delete Quiz</button>
+                    <!-- Delete Quiz Modal -->
+                    <div class="modal fade" id="deleteQuiz{{quiz.id}}Modal" tabindex="-1" aria-labelledby="deleteQuiz{{quiz.id}}ModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="deleteQuiz{{quiz.id}}ModalLabel">Delete Quiz?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            Do you want to permanently delete this quiz?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div><br>
             {% endfor %}

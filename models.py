@@ -56,6 +56,21 @@ class User(db.Model):
 
         return False
 
+    @classmethod
+    def change_password(cls, username, password, new_password):
+        """Change password"""
+
+        user = cls.authenticate(username, password)
+
+        if user:
+            hashed_pwd = bcrypt.generate_password_hash(new_password).decode('UTF-8')
+            user.password = hashed_pwd
+            db.session.commit()
+            return True
+
+        return False
+
+
 class Quiz(db.Model):
     """Quiz"""
 

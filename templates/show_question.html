@@ -12,7 +12,11 @@
                 <li class="list-group-item"><br>
                 <strong>Question:</strong> {{question.question}}<br>
                 <strong>Answer:</strong> {{question.answer}}<br>
-                <strong>Difficulty:</strong> {{question.difficulty}}<br><br>
+                <strong>Difficulty:</strong> {{question.difficulty}}<br>
+                {% if question.category %}
+                <strong>JCategory:</strong> {{question.category}}<br>
+                {% endif %}
+                <br>
                 </li>
                 <li class="list-group-item">
                 <div class="form-group">

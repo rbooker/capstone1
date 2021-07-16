@@ -3,13 +3,13 @@
 {% block title %}Show Quiz{% endblock %}
 
 {% block content %}
-<form action="/quizzes/replace_questions/{{quiz.id}}" method="POST">
+<form action="/quizzes/edit/{{quiz.id}}" method="POST">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <br><h3><span class="badge rounded-pill bg-info text-dark">Edit Quiz: {{quiz.name}}</span></h3>
+                <br><h2><span class="badge rounded-pill bg-info text-dark">Edit Quiz: {{quiz.name}}</span></h2>
                 <p>To edit your quiz, check the box next to the questions you'd like to remove, or replace with a question of
-                    equal difficulty from <a href="jservice.io">Jservice</a>. Then, click either the 
+                    equal difficulty from <a href="http://jservice.io">Jservice</a>. Then, click either the 
                     <span class="badge bg-warning text-dark">Replace</span> or 
                     <span class="badge bg-danger">Remove</span> button at the bottom of the page. 
                     Note: neither option will delete the question from your library.
@@ -20,11 +20,15 @@
                         <div class="card-body">
                         <ul class="list-group">    
                         {% for question in round %}
-                            <li class="list-group-item">
+                            {% if rq_ids and question.id in rq_ids %}
+                                <li class="list-group-item list-group-item-warning">
+                            {% else %}
+                                <li class="list-group-item">
+                            {% endif %}
                             <h6 class="card-title">Question {{loop.index}}.</h6>
                             <p class="card-text"><strong>Q.</strong> {{question.question}}</p>
                             <p class="card-text"><strong>A.</strong> {{question.answer}}</p>
-                            <p class="card-text"><small><strong>Question ID:</strong> {{question.id}}{% if question.category %}<br><strong>JCategory:</strong> {{question.category}}{% endif %}</small></p>
+                            <p class="card-text"><small>{% if question.category %}<strong>JCategory:</strong> {{question.category}}&nbsp;&nbsp;&nbsp;&nbsp;{% endif %}<strong>Difficulty:</strong> {{question.difficulty}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>Question ID:</strong> {{question.id}}</small></p>
                             <input class="form-check-input" type="checkbox" id="{{question.id}}" name="checked_questions" value={{question.id}}><label for="{{question.id}}">&nbsp;Select</label><br>
                             </li>
                         {% endfor %}
@@ -32,12 +36,50 @@
                         </div>
                     </div><br>
                 {% endfor %}
-                <button type="submit" class="btn btn-warning">Replace</button>
-                <button type="submit" class="btn btn-danger" formaction="/quizzes/remove_questions/{{quiz.id}}">Remove</button>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#replaceQuestionsModal">Replace</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeQuestionsModal">Remove</button>
+                <!-- Replace Questions Modal -->
+                <div class="modal fade" id="replaceQuestionsModal" tabindex="-1" aria-labelledby="replaceQuestionsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="replaceQuestionsModalLabel">Replace Selected Questions?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Do you want to replace the selected questions?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-warning">Replace Questions</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <!-- Remove Questions Modal -->
+                <div class="modal fade" id="removeQuestionsModal" tabindex="-1" aria-labelledby="removeQuestionsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="removeQuestionsModalLabel">Replace Selected Questions?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Do you want to remove the selected questions?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger" formaction="/quizzes/remove_questions/{{quiz.id}}">Remove Questions</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </form>
             </div>
         </div>
     </div><br><br>
+
+    
 {% endblock %}
 
 

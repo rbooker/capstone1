@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from tools import get_quiz_data
 from models import db, connect_db, User, Quiz, QuizQuestion, Question
-from forms import CreateQuizForm, AddQuestionToQuiz, EditQuestion, AddQuestion, NewUserForm, LogInForm
+from forms import CreateQuizForm, AddQuestionToQuiz, EditQuestion, AddQuestion, NewUserForm, LogInForm, ChangeUsernameForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
 
 CURR_USER_KEY = "curr_user"
@@ -85,7 +85,6 @@ def login():
 
         if user:
             do_login(user)
-            flash(f"Hello, {user.username}!", "success")
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')
@@ -181,6 +180,7 @@ def create_quiz():
                 db.session.add(quiz_question)
             db.session.commit()
 
+        flash("Quiz successfully created!", "success")
         return redirect(f"/quizzes/show/{quiz_id}")
 
     else:
@@ -219,7 +219,7 @@ def show_quiz(quiz_id):
 
     return render_template("show_quiz.html", quiz_questions=quiz_questions, quiz=quiz)
 
-@app.route("/quizzes/edit/<int:quiz_id>")
+@app.route("/quizzes/edit/<int:quiz_id>", methods=["GET", "POST"])
 def edit_quiz(quiz_id):
     """Edit the quiz with the given id"""
     
@@ -227,53 +227,86 @@ def edit_quiz(quiz_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    quiz = Quiz.query.get_or_404(quiz_id)
-    quiz_questions = []
-    for round_no in range(1, quiz.rounds + 1):
-        round = []
-        for quiz_question in quiz.questions:
-            if quiz_question.round == round_no:
-                round.append(quiz_question.question)
-        quiz_questions.append(round)
+    if request.method == 'POST':
+        q_ids = request.form.getlist("checked_questions")
+        quiz = Quiz.query.get_or_404(quiz_id)
+        replacement_question_ids =[]
 
-    return render_template("edit_quiz.html", quiz_questions=quiz_questions, quiz=quiz)
+        for q_id in q_ids:
+            q_to_replace = Question.query.get_or_404(int(q_id))
 
-@app.route("/quizzes/replace_questions/<int:quiz_id>", methods=["POST"])
-def replace_questions(quiz_id):
-    """Replace selected questions in the quiz with the given id"""
+            for quiz_question in q_to_replace.quizzes:
+                qq = quiz_question.quiz
+                if qq.id == quiz_id:
+                    quiz_question_to_replace = quiz_question
+        
+            #get replacement question - will have same difficulty and round as old question
+            replacement_question_array = get_quiz_data([q_to_replace.difficulty], 1, q_to_replace.user_id)
+            replacement_question = replacement_question_array[0]
+
+            #add new question to db
+            db.session.add(replacement_question)
+            db.session.commit()
+            db.session.refresh(replacement_question)
+            replacement_question_ids.append(replacement_question.id)
+
+            #add new question to quiz
+            new_quiz_question = QuizQuestion(quiz_id=quiz_id,
+                                     question_id=replacement_question.id,
+                                     round=quiz_question_to_replace.round)
+            db.session.add(new_quiz_question)
+            db.session.commit()
+
+            #remove question from quiz - don't delete it, though
+            db.session.delete(quiz_question_to_replace)
+            db.session.commit()
+
+        quiz_questions = []
+        
+        for round_no in range(1, quiz.rounds + 1):
+            round = []
+            for quiz_question in quiz.questions:
+                if quiz_question.round == round_no:
+                    round.append(quiz_question.question)
+            quiz_questions.append(round)
+
+        flash("Questions successfully replaced. New questions highlighted in yellow.", "success")
+        return render_template("edit_quiz.html", quiz_questions=quiz_questions, quiz=quiz, rq_ids=replacement_question_ids)
+
+    else:
+        quiz = Quiz.query.get_or_404(quiz_id)
+        quiz_questions = []
+        
+        for round_no in range(1, quiz.rounds + 1):
+            round = []
+            for quiz_question in quiz.questions:
+                if quiz_question.round == round_no:
+                    round.append(quiz_question.question)
+            quiz_questions.append(round)
+
+        return render_template("edit_quiz.html", quiz_questions=quiz_questions, quiz=quiz, rq_ids=None)
+
+@app.route("/quizzes/remove_questions/<int:quiz_id>", methods=["POST"])
+def remove_question(quiz_id):
+    """Remove selected questions in the quiz with the given id"""
     q_ids = request.form.getlist("checked_questions")
     quiz = Quiz.query.get_or_404(quiz_id)
 
     for q_id in q_ids:
-        q_to_replace = Question.query.get_or_404(int(q_id))
+        q_to_remove = Question.query.get_or_404(int(q_id))
 
-        for quiz_question in q_to_replace.quizzes:
+        for quiz_question in q_to_remove.quizzes:
             qq = quiz_question.quiz
             if qq.id == quiz_id:
-                quiz_question_to_replace = quiz_question
-        
-        #get replacement question - will have same difficulty and round as old question
-        replacement_question_array = get_quiz_data([q_to_replace.difficulty], 1, q_to_replace.user_id)
-        replacement_question = replacement_question_array[0]
-
-        #add new question to db
-        db.session.add(replacement_question)
-        db.session.commit()
-        db.session.refresh(replacement_question)
-
-        #add new question to quiz
-        new_quiz_question = QuizQuestion(quiz_id=quiz_id,
-                                     question_id=replacement_question.id,
-                                     round=quiz_question_to_replace.round)
-        db.session.add(new_quiz_question)
-        db.session.commit()
+                quiz_question_to_remove = quiz_question
 
         #remove question from quiz - don't delete it, though
-        db.session.delete(quiz_question_to_replace)
+        db.session.delete(quiz_question_to_remove)
         db.session.commit()
 
-
+    flash("Questions successfully removed", "success")
     return redirect(f"/quizzes/edit/{quiz_id}")
+    
 
 @app.route("/quizzes/delete/<int:quiz_id>", methods=["POST"])
 def delete_quiz(quiz_id):
@@ -282,10 +315,11 @@ def delete_quiz(quiz_id):
     db.session.delete(quiz_to_delete)
     db.session.commit()
 
+    flash("Quiz deleted.", "success")
     return redirect("/quizzes/show")
 
 ######################################################
-#Quiz routes
+#Question routes
 ######################################################
 
 @app.route("/questions/create", methods=["GET", "POST"])
@@ -313,6 +347,7 @@ def create_question():
         db.session.commit()
         db.session.refresh(new_question)
 
+        flash("New question successfully created.", 'success')
         return redirect(f"/questions/show/{new_question.id}")
 
     return render_template("create_question.html", form=form)
@@ -335,6 +370,7 @@ def edit_question(question_id):
         question.difficulty = form.difficulty.data
         db.session.commit()
 
+        flash("Question successfully edited.", 'success')
         return redirect(f"/questions/show/{question_id}")
 
     return render_template("edit_question.html", question=question, form=form)
@@ -388,6 +424,7 @@ def show_question(question_id):
         quiz = Quiz.query.get_or_404(quiz_id)
         quiz.questions.append(new_quiz_question)
 
+        flash(f"Question ID:{question.id} added to Round {round} of Quiz {quiz.name}", "success")
         return redirect(f"/quizzes/show/{quiz.id}")
 
 
@@ -395,6 +432,7 @@ def show_question(question_id):
 
 @app.route("/questions/delete/<int:question_id>", methods=["POST"])
 def delete_question(question_id):
+    """Delete Question"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -404,7 +442,73 @@ def delete_question(question_id):
     db.session.delete(question_to_delete)
     db.session.commit()
 
+    flash("Question deleted.", "success")
     return redirect("/questions/show")
+######################################################
+#Change username/password routes
+######################################################
+@app.route("/change_username", methods=["GET", "POST"])
+def change_username():
+    """Change username"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    user = g.user
+    user_id = user.id
+    user_name = user.username
+
+    form = ChangeUsernameForm()
+
+    if form.validate_on_submit():
+
+        if User.authenticate(user.username, form.password.data):
+            
+            try:
+                user.username = form.username.data
+                db.session.commit()
+
+            except IntegrityError:
+                flash("Username already taken.", 'danger')
+                return render_template('change_username.html', form=form, user_name=user_name)
+
+            flash("Username successfully changed.", 'success')
+            return redirect("/")
+
+        flash("Password incorrect. Please try again.", 'danger')
+
+    return render_template('change_username.html', form=form, user_name=user_name)
+
+@app.route("/change_password", methods=["GET", "POST"])
+def change_password():
+    """Change password"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    user = g.user
+
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        
+        if User.change_password(user.username, form.password.data, form.new_password.data):
+            flash("Password successfully changed", 'success')
+            return redirect("/")
+
+        flash("Password incorrect. Please try again.", 'danger')
+
+    return render_template('change_password.html', form=form)
+
+        
+        
+
+
+    
+
+
 
 ######################################################
 #Homepage/About/FAQ routes

@@ -10,7 +10,25 @@
             <p>If you delete your profile, all your quizzes and questions will be permanently deleted as well.</p>
             <form method="POST" action="/delete">
                 <br>
-                <button class="btn  btn-danger">Delete Forever</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">Submit</button>
+                <!-- Change Password Modal -->
+                <div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteProfileModalLabel">Delete Profile?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Permanently delete your profile?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </form>
         </div>
     </div>
