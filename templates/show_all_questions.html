@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Show All Questions{% endblock %}
+{% block title %}My Questions{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <br><h2><span class="badge rounded-pill bg-info text-dark">My Questions</span></h2><br>
+            <div class="card text-center">
+                <div class="card-header">
+                  &nbsp;
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Write a question</h5>
+                  <p class="card-text">Write your very own trivia question!<br>Once it's saved, it'll be stored here, where you can edit it or add it to one of your quizzes.</p>
+                  <a href="/questions/create" class="btn btn-primary">Go To Create Question</a>
+                </div>
+                <div class="card-footer text-muted">
+                  &nbsp;
+                </div>
+              </div><br>
+            {% if not questions %}
+            <div class="card text-center">
+                <div class="card-body">
+                    <p class="card-text">You have no saved questions</p>
+                </div>
+            </div>
+            {% endif %}
             {% for question in questions %}
                 <div class="card">
                     <div class="card-header"><h5>Question ID: {{question.id}}</h5></div>

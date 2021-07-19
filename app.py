@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from tools import get_quiz_data
@@ -9,7 +11,7 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///trivia'
+app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///trivia'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
@@ -420,10 +422,10 @@ def show_question(question_id):
         new_quiz_question = QuizQuestion(quiz_id=quiz_id, question_id=question_id, round=round)
         db.session.add(new_quiz_question)
         db.session.commit()
-        new_quiz_question.question = question
+        
+        #Get quiz for sake of showing its name in flash message
         quiz = Quiz.query.get_or_404(quiz_id)
-        quiz.questions.append(new_quiz_question)
-
+        
         flash(f"Question ID:{question.id} added to Round {round} of Quiz {quiz.name}", "success")
         return redirect(f"/quizzes/show/{quiz.id}")
 

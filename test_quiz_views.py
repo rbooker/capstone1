@@ -34,6 +34,11 @@ class QuizViewTestCase(TestCase):
 
         db.session.commit()
 
+    def tearDown(self):
+        resp = super().tearDown()
+        db.session.rollback()
+        return resp
+
     """def test_create_quiz(self):
 
         with self.client as c:
@@ -58,7 +63,7 @@ class QuizViewTestCase(TestCase):
             self.assertEqual(quiz.rounds, 5)
             self.assertEqual(len(quiz.questions), 25)"""
 
-    """def setup_quizzes(self):
+    def setup_quizzes(self):
    
         quiz = Quiz(name="testquiz",
                     description="a test quiz",
@@ -81,34 +86,10 @@ class QuizViewTestCase(TestCase):
                                     round=1)
         db.session.add(quiz_question)
         db.session.commit()
-        quiz_question.question = question
-        quiz.questions.append(quiz_question)"""
 
     def test_show_quizzes(self):
-        
-        """quiz = Quiz(name="testquiz", 
-                    description="a test quiz",
-                    rounds = 1,
-                    user_id = self.testuser.id)
-        db.session.add(quiz)
-        db.session.commit()
-        db.session.refresh(quiz)
-                
-        question = Question(question="What is the answer to life, the universe, and everything?",
-                            answer= "Forty-two",
-                            difficulty = 5,
-                            user_id = self.testuser.id)
-        db.session.add(question)
-        db.session.commit()
-        db.session.refresh(question)
 
-        quiz_question = QuizQuestion(quiz_id=quiz.id,
-                                     question_id=question.id,
-                                     round=1)
-        db.session.add(quiz_question)
-        db.session.commit()
-        quiz_question.question = question
-        quiz.questions.append(quiz_question)"""
+        self.setup_quizzes()
 
         with self.client as c:
             with c.session_transaction() as sess:
@@ -121,7 +102,7 @@ class QuizViewTestCase(TestCase):
             self.assertIn('testquiz', str(resp.data))
             self.assertIn('a test quiz', str(resp.data))
 
-    """def test_show_quiz(self):
+    def test_show_quiz(self):
 
         self.setup_quizzes()
         test_quiz = Quiz.query.filter(Quiz.name=="testquiz").one()
@@ -139,11 +120,11 @@ class QuizViewTestCase(TestCase):
             self.assertIn('Forty-two', str(resp.data))
             self.assertIn('Difficulty:</strong> 5', str(resp.data))
 
-    def test_edit_quiz_replace_question(self):"
+    def test_edit_quiz_replace_question(self):
 
         self.setup_quizzes()
         test_quiz = Quiz.query.filter(Quiz.name=="testquiz").one()
-        test_question = Question.query.filter(Question.answer=="42").one()
+        test_question = Question.query.filter(Question.answer=="Forty-two").one()
 
         with self.client as c:
             with c.session_transaction() as sess:
@@ -164,13 +145,13 @@ class QuizViewTestCase(TestCase):
 
         self.setup_quizzes()
         test_quiz = Quiz.query.filter(Quiz.name=="testquiz").one()
-        test_question = Question.query.filter(Question.answer=="42").one()
+        test_question = Question.query.filter(Question.answer=="Forty-two").one()
 
         with self.client as c:
             with c.session_transaction() as sess:
                 sess[CURR_USER_KEY] = self.testuser.id
 
-            resp = c.post(f"/quizzes/remove_questions/{test_quiz.id}", data={"checked_questions":f"{test_question.id}"})
+            resp = c.post(f"/quizzes/remove_questions/{test_quiz.id}", data={"checked_questions":f"{test_question.id}"}, follow_redirects=True)
 
             self.assertEqual(resp.status_code, 200)
 
@@ -178,7 +159,7 @@ class QuizViewTestCase(TestCase):
 
             #The question should be gone
             self.assertNotIn('What is the answer to life, the universe, and everything?', str(resp.data))
-            self.assertNotIn('Forty-two', str(resp.data))"""
+            self.assertNotIn('Forty-two', str(resp.data))
 
             
 

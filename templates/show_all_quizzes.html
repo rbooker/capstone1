@@ -1,13 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Show All Quizzes{% endblock %}
+{% block title %}My Quizzes{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <br><h2><span class="badge rounded-pill bg-info text-dark">My Quizzes</span></h2><br>
-            
+            <div class="card text-center">
+                <div class="card-header">
+                  &nbsp;
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Create a quiz</h5>
+                  <p class="card-text">Generate a new quiz with questions retrieved from <a href="jservice.io">JService</a>, the online Jeopardy! database.<br>Once it's been
+                created, you can come back here to view or edit it.</p>
+                  <a href="/quizzes/create" class="btn btn-primary">Go To Make Quiz</a>
+                </div>
+                <div class="card-footer text-muted">
+                  &nbsp;
+                </div>
+              </div><br>
+            {% if not quizzes %}
+            <div class="card text-center">
+                <div class="card-body">
+                    <p class="card-text">You have no saved quizzes</p>
+                </div>
+            </div>
+            {% endif %}
             {% for quiz in quizzes %}
             <div class="card">
                 <div class="card-header"><h5>{{quiz.name}}</h5></div>
