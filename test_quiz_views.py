@@ -39,7 +39,7 @@ class QuizViewTestCase(TestCase):
         db.session.rollback()
         return resp
 
-    """def test_create_quiz(self):
+    def test_create_quiz(self):
 
         with self.client as c:
             with c.session_transaction() as sess:
@@ -61,7 +61,7 @@ class QuizViewTestCase(TestCase):
             self.assertEqual(quiz.name, "testquiz")
             self.assertEqual(quiz.description, "a test quiz")
             self.assertEqual(quiz.rounds, 5)
-            self.assertEqual(len(quiz.questions), 25)"""
+            self.assertEqual(len(quiz.questions), 25)
 
     def setup_quizzes(self):
    
@@ -160,6 +160,28 @@ class QuizViewTestCase(TestCase):
             #The question should be gone
             self.assertNotIn('What is the answer to life, the universe, and everything?', str(resp.data))
             self.assertNotIn('Forty-two', str(resp.data))
+
+    def test_delete_quiz(self):
+
+        self.setup_quizzes()
+        test_quiz = Quiz.query.filter(Quiz.name=="testquiz").one()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.testuser.id
+
+            resp = c.post(f"/quizzes/delete/{test_quiz.id}", follow_redirects=True)
+
+            self.assertEqual(resp.status_code, 200)
+
+            #Redirects to "show all quizzes page" - testquiz should be gone
+            self.assertNotIn('testquiz', str(resp.data))
+            #And, because it was the only quiz, "You have no saved quizzes" should be displayed
+            self.assertIn('You have no saved quizzes', str(resp.data))
+
+            
+
+
 
             
 
