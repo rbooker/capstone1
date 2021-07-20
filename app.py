@@ -6,19 +6,22 @@ from tools import get_quiz_data
 from models import db, connect_db, User, Quiz, QuizQuestion, Question
 from forms import CreateQuizForm, AddQuestionToQuiz, EditQuestion, AddQuestion, NewUserForm, LogInForm, ChangeUsernameForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
+import re
 
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///trivia'))
+uri = (os.environ.get('DATABASE_URL', 'postgresql:///trivia'))
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
 db.create_all()
 
-app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'shh')
 
 debug = DebugToolbarExtension(app)
 
